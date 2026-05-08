@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    environment {
+        // AWS की चा पाथ जो मास्टर नोडवर आहे
+        SSH_KEY = "/home/ubuntu/serverkeyall.pem"
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                // AWS_Infrastructure फोल्डरमध्ये जाऊन terraform रन करा
+                dir('AWS_Infrastructure') {
+                    sh 'terraform init'
+                    sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+
+        stage('Server Discovery') {
+            steps {
+                // मेन फोल्डरमधील पायथन स्क्रिप्ट रन करा
+                sh 'python3 server_discovery.py'
+            }
+        }
+
+        stage('Ansible Setup') {
+            steps {
+                // ansible फोल्डरमध्ये जाऊन प्लेबुक रन करा
+                dir('AWS_Infrastructure/ansible') {
+                    sh "ansible-playbook -i hosts.ini setup_servers.yml --private-key ${SSH_KEY}"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+- name: Configure Web Servers
+  hosts: webservers
+  become: yes  # sudo permissions साठी
+  tasks:
+    - name: APT cache अपडेट करा
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Nginx इन्स्टॉल करा
+      apt:
+        name: nginx
+        state: present
+
+    - name: Nginx सर्व्हिस सुरू करा आणि इनेबल करा
+      service:
+        name: nginx
+        state: started
+        enabled: yes
