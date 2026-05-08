@@ -9,6 +9,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
+                timeout(time: 30, unit: 'MINUTES') {
                 git 'https://github.com/sourabhpj/INFRASTRUCTURE_PROJECT.git',credentialsId: 'github-creds'
             }
         }
