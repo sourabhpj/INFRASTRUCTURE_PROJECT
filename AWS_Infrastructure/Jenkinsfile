@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                checkout scm
+                git 'https://github.com/sourabhpj/INFRASTRUCTURE_PROJECT.git'
             }
         }
 

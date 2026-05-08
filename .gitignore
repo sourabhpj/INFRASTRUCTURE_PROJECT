@@ -1,4 +1,5 @@
 .terraform/
 *.tfstate*
 *.pem
-terrraform-provider-aws
+terrraform-provider-aws*
+*.exe
