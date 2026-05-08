@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/sourabhpj/INFRASTRUCTURE_PROJECT.git'
+                git 'https://github.com/sourabhpj/INFRASTRUCTURE_PROJECT.git',credentialsId: 'github-creds'
             }
         }
 
